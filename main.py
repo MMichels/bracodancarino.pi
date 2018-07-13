@@ -1,5 +1,5 @@
 import audioExtraction as auEx
-import driverMotores as braco
+# import driverMotores as braco
 import multiprocessing as mp
 import subprocess as sp
 import os, sys, time, wave, pyaudio
@@ -63,7 +63,8 @@ def main(args):
                 # Calculate and display
                 magnitudes = pool.apply(auEx.calculate_magnitudes, (q_data, 1024, nb_channels))
                 magnitudes = auEx.get_eq(magnitudes)
-                pool.apply_async(bot_dance, magnitudes)
+                #pool.apply_async(print, magnitudes)
+                bot_dance(magnitudes)
 
             # stop stream
             stream.stop_stream()
@@ -86,29 +87,29 @@ def main(args):
     return 0
 
 
-def bot_dance(*magnitudes):
-    def get_dominant(magnitudes):
-        list(magnitudes)
+def bot_dance(mag):
+    def get_dominant(magnit):
+        list(magnit)
         highter = 0
-        for frequency in magnitudes:
+        for frequency in magnit:
             if highter < frequency:
                 highter = frequency
-        return magnitudes.index(highter)
-    if get_dominant() == 0:
+        return magnit.index(highter)
+    if get_dominant(mag) == 0:
         angule = (0, 0, 0)
-    elif get_dominant() == 1:
+    elif get_dominant(mag) == 1:
         angule = (26, 13, 22)
-    elif get_dominant() == 2:
+    elif get_dominant(mag) == 2:
         angule = (52, 25, 45)
-    elif get_dominant() == 3:
+    elif get_dominant(mag) == 3:
         angule = (78, 38, 67)
-    elif get_dominant() == 4:
+    elif get_dominant(mag) == 4:
         angule = (104, 51, 90)
-    elif get_dominant() == 5:
+    elif get_dominant(mag) == 5:
         angule = (130, 64, 112)
-    elif get_dominant() == 6:
+    elif get_dominant(mag) == 6:
         angule = (156, 77, 135)
-    elif get_dominant() == 7:
+    elif get_dominant(mag) == 7:
         angule = (180, 90, 160)
     print(angule)
     #braco.set_pos(angule)
